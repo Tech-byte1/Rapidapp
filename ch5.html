@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5 - Coal and Petroleum Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is coal primarily made of?",
+            options: ["Carbon", "Hydrogen", "Oxygen", "Nitrogen"],
+            correctAnswer: "Carbon"
+        },
+        {
+            question: "Which of the following is a fossil fuel?",
+            options: ["Natural gas", "Coal", "Petroleum", "All of these"],
+            correctAnswer: "All of these"
+        },
+        {
+            question: "What is petroleum refined into?",
+            options: ["Gasoline", "Diesel", "Kerosene", "All of these"],
+            correctAnswer: "All of these"
+        },
+        {
+            question: "Which process is used to separate different fractions of petroleum?",
+            options: ["Filtration", "Distillation", "Evaporation", "Condensation"],
+            correctAnswer: "Distillation"
+        },
+        {
+            question: "Which of these is NOT a use of petroleum?",
+            options: ["Fuel for vehicles", "Production of plastics", "Electricity generation", "Manufacturing cosmetics"],
+            correctAnswer: "Electricity generation"
+        },
+        {
+            question: "What is the main environmental concern related to fossil fuels?",
+            options: ["Air pollution", "Water pollution", "Land degradation", "All of these"],
+            correctAnswer: "All of these"
+        },
+        {
+            question: "Which gas is released when coal is burned?",
+            options: ["Carbon monoxide", "Ozone", "Nitrogen", "Helium"],
+            correctAnswer: "Carbon monoxide"
+        },
+        {
+            question: "What is the main component of natural gas?",
+            options: ["Propane", "Butane", "Methane", "Ethane"],
+            correctAnswer: "Methane"
+        },
+        {
+            question: "Which of these is a renewable energy source?",
+            options: ["Solar energy", "Coal", "Natural gas", "Petroleum"],
+            correctAnswer: "Solar energy"
+        },
+        {
+            question: "What is the main disadvantage of using fossil fuels?",
+            options: ["Abundance", "Cost", "Environmental impact", "Easy availability"],
+            correctAnswer: "Environmental impact"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

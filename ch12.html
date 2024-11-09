@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 12 - Friction Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is friction?",
+            options: ["A force that opposes motion", "A type of energy", "A type of material", "None of these"],
+            correctAnswer: "A force that opposes motion"
+        },
+        {
+            question: "What are the two types of friction?",
+            options: ["Static and kinetic", "Mass and weight", "Force and pressure", "None of these"],
+            correctAnswer: "Static and kinetic"
+        },
+        {
+            question: "Which of the following reduces friction?",
+            options: ["Sand", "Oil", "Rough surfaces", "None of these"],
+            correctAnswer: "Oil"
+        },
+        {
+            question: "What is static friction?",
+            options: ["Friction when an object is at rest", "Friction when an object is moving", "Friction in liquids", "None of these"],
+            correctAnswer: "Friction when an object is at rest"
+        },
+        {
+            question: "What is kinetic friction?",
+            options: ["Friction during rest", "Friction between moving surfaces", "Friction in solids", "None of these"],
+            correctAnswer: "Friction between moving surfaces"
+        },
+        {
+            question: "What is the effect of weight on friction?",
+            options: ["Increases with weight", "Decreases with weight", "Remains the same", "None of these"],
+            correctAnswer: "Increases with weight"
+        },
+        {
+            question: "Which surface has more friction?",
+            options: ["Ice", "Wood", "Glass", "None of these"],
+            correctAnswer: "Wood"
+        },
+        {
+            question: "How can we increase friction?",
+            options: ["Smooth surfaces", "Add weight", "Use lubricants", "None of these"],
+            correctAnswer: "Add weight"
+        },
+        {
+            question: "What is rolling friction?",
+            options: ["Friction when an object rolls", "Friction when an object slides", "Friction in fluids", "None of these"],
+            correctAnswer: "Friction when an object rolls"
+        },
+        {
+            question: "What is one disadvantage of friction?",
+            options: ["Helps in motion", "Causes wear and tear", "Provides stability", "None of these"],
+            correctAnswer: "Causes wear and tear"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

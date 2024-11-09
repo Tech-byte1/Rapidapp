@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 10 - Reaching the Age of Adolescence Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is adolescence?",
+            options: ["Period of growing up", "Childhood", "Old age", "None of these"],
+            correctAnswer: "Period of growing up"
+        },
+        {
+            question: "What is puberty?",
+            options: ["A stage of childhood", "The onset of reproductive maturity", "A type of food", "None of these"],
+            correctAnswer: "The onset of reproductive maturity"
+        },
+        {
+            question: "What hormone is responsible for male secondary sexual characteristics?",
+            options: ["Estrogen", "Progesterone", "Testosterone", "Insulin"],
+            correctAnswer: "Testosterone"
+        },
+        {
+            question: "What hormone is responsible for female secondary sexual characteristics?",
+            options: ["Testosterone", "Estrogen", "Cortisol", "Adrenaline"],
+            correctAnswer: "Estrogen"
+        },
+        {
+            question: "At what age does adolescence typically begin?",
+            options: ["5-10 years", "10-15 years", "15-20 years", "20-25 years"],
+            correctAnswer: "10-15 years"
+        },
+        {
+            question: "What is menstruation?",
+            options: ["A growth process", "Release of an egg", "Monthly shedding of the uterine lining", "None of these"],
+            correctAnswer: "Monthly shedding of the uterine lining"
+        },
+        {
+            question: "Which of the following is NOT a change during adolescence?",
+            options: ["Growth spurts", "Change in voice", "Increase in height", "Decreased social interactions"],
+            correctAnswer: "Decreased social interactions"
+        },
+        {
+            question: "What is the primary emotional change during adolescence?",
+            options: ["Increased stability", "Increased curiosity", "Increased sensitivity", "None of these"],
+            correctAnswer: "Increased sensitivity"
+        },
+        {
+            question: "What is a common issue faced during adolescence?",
+            options: ["Physical changes", "Identity crises", "Peer pressure", "All of these"],
+            correctAnswer: "All of these"
+        },
+        {
+            question: "What is the role of sex education in adolescence?",
+            options: ["To inform about reproduction", "To discuss relationships", "To promote health awareness", "All of these"],
+            correctAnswer: "All of these"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 10 - Reaching the Age of Adolescence Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is adolescence?",
+            options: ["Period of growing up", "Childhood", "Old age", "None of these"],
+            correctAnswer: "Period of growing up"
+        },
+        {
+            question: "What is puberty?",
+            options: ["A stage of childhood", "The onset of reproductive maturity", "A type of food", "None of these"],
+            correctAnswer: "The onset of reproductive maturity"
+        },
+        {
+            question: "What hormone is responsible for male secondary sexual characteristics?",
+            options: ["Estrogen", "Progesterone", "Testosterone", "Insulin"],
+            correctAnswer: "Testosterone"
+        },
+        {
+            question: "What hormone is responsible for female secondary sexual characteristics?",
+            options: ["Testosterone", "Estrogen", "Cortisol", "Adrenaline"],
+            correctAnswer: "Estrogen"
+        },
+        {
+            question: "At what age does adolescence typically begin?",
+            options: ["5-10 years", "10-15 years", "15-20 years", "20-25 years"],
+            correctAnswer: "10-15 years"
+        },
+        {
+            question: "What is menstruation?",
+            options: ["A growth process", "Release of an egg", "Monthly shedding of the uterine lining", "None of these"],
+            correctAnswer: "Monthly shedding of the uterine lining"
+        },
+        {
+            question: "Which of the following is NOT a change during adolescence?",
+            options: ["Growth spurts", "Change in voice", "Increase in height", "Decreased social interactions"],
+            correctAnswer: "Decreased social interactions"
+        },
+        {
+            question: "What is the primary emotional change during adolescence?",
+            options: ["Increased stability", "Increased curiosity", "Increased sensitivity", "None of these"],
+            correctAnswer: "Increased sensitivity"
+        },
+        {
+            question: "What is a common issue faced during adolescence?",
+            options: ["Physical changes", "Identity crises", "Peer pressure", "All of these"],
+            correctAnswer: "All of these"
+        },
+        {
+            question: "What is the role of sex education in adolescence?",
+            options: ["To inform about reproduction", "To discuss relationships", "To promote health awareness", "All of these"],
+            correctAnswer: "All of these"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 10 - Reaching the Age of Adolescence Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is adolescence?",
+            options: ["Period of growing up", "Childhood", "Old age", "None of these"],
+            correctAnswer: "Period of growing up"
+        },
+        {
+            question: "What is puberty?",
+            options: ["A stage of childhood", "The onset of reproductive maturity", "A type of food", "None of these"],
+            correctAnswer: "The onset of reproductive maturity"
+        },
+        {
+            question: "What hormone is responsible for male secondary sexual characteristics?",
+            options: ["Estrogen", "Progesterone", "Testosterone", "Insulin"],
+            correctAnswer: "Testosterone"
+        },
+        {
+            question: "What hormone is responsible for female secondary sexual characteristics?",
+            options: ["Testosterone", "Estrogen", "Cortisol", "Adrenaline"],
+            correctAnswer: "Estrogen"
+        },
+        {
+            question: "At what age does adolescence typically begin?",
+            options: ["5-10 years", "10-15 years", "15-20 years", "20-25 years"],
+            correctAnswer: "10-15 years"
+        },
+        {
+            question: "What is menstruation?",
+            options: ["A growth process", "Release of an egg", "Monthly shedding of the uterine lining", "None of these"],
+            correctAnswer: "Monthly shedding of the uterine lining"
+        },
+        {
+            question: "Which of the following is NOT a change during adolescence?",
+            options: ["Growth spurts", "Change in voice", "Increase in height", "Decreased social interactions"],
+            correctAnswer: "Decreased social interactions"
+        },
+        {
+            question: "What is the primary emotional change during adolescence?",
+            options: ["Increased stability", "Increased curiosity", "Increased sensitivity", "None of these"],
+            correctAnswer: "Increased sensitivity"
+        },
+        {
+            question: "What is a common issue faced during adolescence?",
+            options: ["Physical changes", "Identity crises", "Peer pressure", "All of these"],
+            correctAnswer: "All of these"
+        },
+        {
+            question: "What is the role of sex education in adolescence?",
+            options: ["To inform about reproduction", "To discuss relationships", "To promote health awareness", "All of these"],
+            correctAnswer: "All of these"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 10 - Reaching the Age of Adolescence Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is adolescence?",
+            options: ["Period of growing up", "Childhood", "Old age", "None of these"],
+            correctAnswer: "Period of growing up"
+        },
+        {
+            question: "What is puberty?",
+            options: ["A stage of childhood", "The onset of reproductive maturity", "A type of food", "None of these"],
+            correctAnswer: "The onset of reproductive maturity"
+        },
+        {
+            question: "What hormone is responsible for male secondary sexual characteristics?",
+            options: ["Estrogen", "Progesterone", "Testosterone", "Insulin"],
+            correctAnswer: "Testosterone"
+        },
+        {
+            question: "What hormone is responsible for female secondary sexual characteristics?",
+            options: ["Testosterone", "Estrogen", "Cortisol", "Adrenaline"],
+            correctAnswer: "Estrogen"
+        },
+        {
+            question: "At what age does adolescence typically begin?",
+            options: ["5-10 years", "10-15 years", "15-20 years", "20-25 years"],
+            correctAnswer: "10-15 years"
+        },
+        {
+            question: "What is menstruation?",
+            options: ["A growth process", "Release of an egg", "Monthly shedding of the uterine lining", "None of these"],
+            correctAnswer: "Monthly shedding of the uterine lining"
+        },
+        {
+            question: "Which of the following is NOT a change during adolescence?",
+            options: ["Growth spurts", "Change in voice", "Increase in height", "Decreased social interactions"],
+            correctAnswer: "Decreased social interactions"
+        },
+        {
+            question: "What is the primary emotional change during adolescence?",
+            options: ["Increased stability", "Increased curiosity", "Increased sensitivity", "None of these"],
+            correctAnswer: "Increased sensitivity"
+        },
+        {
+            question: "What is a common issue faced during adolescence?",
+            options: ["Physical changes", "Identity crises", "Peer pressure", "All of these"],
+            correctAnswer: "All of these"
+        },
+        {
+            question: "What is the role of sex education in adolescence?",
+            options: ["To inform about reproduction", "To discuss relationships", "To promote health awareness", "All of these"],
+            correctAnswer: "All of these"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

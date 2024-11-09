@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1 - Crop Production and Management Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is the main source of food for plants?",
+            options: ["Soil", "Water", "Air", "Sunlight"],
+            correctAnswer: "Sunlight"
+        },
+        {
+            question: "What are the two main types of crops?",
+            options: ["Rabi and Kharif", "Sowing and Harvesting", "Annual and Biennial", "None of these"],
+            correctAnswer: "Rabi and Kharif"
+        },
+        {
+            question: "Which of the following is a type of irrigation?",
+            options: ["Drip irrigation", "Rainwater harvesting", "Crop rotation", "All of these"],
+            correctAnswer: "Drip irrigation"
+        },
+        {
+            question: "Which tool is used for ploughing?",
+            options: ["Sickle", "Hoe", "Plough", "Spade"],
+            correctAnswer: "Plough"
+        },
+        {
+            question: "What is the process of cutting ripe crops called?",
+            options: ["Harvesting", "Sowing", "Irrigating", "Weeding"],
+            correctAnswer: "Harvesting"
+        },
+        {
+            question: "What do you call the preparation of soil for planting?",
+            options: ["Farming", "Sowing", "Tilling", "Fertilizing"],
+            correctAnswer: "Tilling"
+        },
+        {
+            question: "What is the primary purpose of fertilizers?",
+            options: ["Weeding", "Harvesting", "Nourishing plants", "Ploughing"],
+            correctAnswer: "Nourishing plants"
+        },
+        {
+            question: "Which of these is a cash crop?",
+            options: ["Wheat", "Rice", "Cotton", "Barley"],
+            correctAnswer: "Cotton"
+        },
+        {
+            question: "What is used to protect crops from pests?",
+            options: ["Fertilizers", "Insecticides", "Irrigation", "Tilling"],
+            correctAnswer: "Insecticides"
+        },
+        {
+            question: "Which of these is NOT a traditional method of irrigation?",
+            options: ["Drip irrigation", "Dhekli", "Chain pump", "Flood irrigation"],
+            correctAnswer: "Drip irrigation"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

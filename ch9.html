@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 9 - Reproduction in Animals Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is reproduction?",
+            options: ["Process of producing offspring", "Growth of an organism", "Feeding", "None of these"],
+            correctAnswer: "Process of producing offspring"
+        },
+        {
+            question: "What are the two types of reproduction?",
+            options: ["Asexual and Sexual", "Vegetative and Asexual", "Cloning and Sexual", "None of these"],
+            correctAnswer: "Asexual and Sexual"
+        },
+        {
+            question: "Which of these is a form of asexual reproduction?",
+            options: ["Budding", "Fertilization", "Mating", "None of these"],
+            correctAnswer: "Budding"
+        },
+        {
+            question: "What is external fertilization?",
+            options: ["Fertilization inside the female", "Fertilization outside the female", "None of these", "Both A and B"],
+            correctAnswer: "Fertilization outside the female"
+        },
+        {
+            question: "In which animal is internal fertilization common?",
+            options: ["Fish", "Birds", "Frogs", "All of these"],
+            correctAnswer: "Birds"
+        },
+        {
+            question: "What is the purpose of reproduction?",
+            options: ["To ensure survival of species", "To provide food", "To protect the environment", "None of these"],
+            correctAnswer: "To ensure survival of species"
+        },
+        {
+            question: "What is oviparous?",
+            options: ["Animals that lay eggs", "Animals that give live birth", "Both A and B", "None of these"],
+            correctAnswer: "Animals that lay eggs"
+        },
+        {
+            question: "What is viviparous?",
+            options: ["Animals that lay eggs", "Animals that give live birth", "Both A and B", "None of these"],
+            correctAnswer: "Animals that give live birth"
+        },
+        {
+            question: "Which of these undergoes metamorphosis?",
+            options: ["Butterfly", "Frog", "Both A and B", "None of these"],
+            correctAnswer: "Both A and B"
+        },
+        {
+            question: "Which reproductive strategy leads to more genetic diversity?",
+            options: ["Asexual reproduction", "Sexual reproduction", "Cloning", "None of these"],
+            correctAnswer: "Sexual reproduction"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

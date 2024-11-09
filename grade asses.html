@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Assessment System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .android-app {
+            width: 360px;
+            height: auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            font-weight: 300;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .subject-input {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .subject-input label {
+            width: 100px;
+            font-size: 1.2em;
+        }
+
+        .subject-input input {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .result-container span {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .improvement {
+            color: green;
+        }
+
+        .decline {
+            color: red;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        #reset-btn {
+            background-color: red;
+            margin-top: 10px;
+        }
+
+        #reset-btn:hover {
+            background-color: darkred;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="android-app">
+    <h2>Grade Assessment</h2>
+
+    <!-- Input fields for each subject (marks obtained) -->
+    <div class="subject-input">
+        <label for="sst">SST:</label>
+        <input type="number" id="sst" placeholder="Marks" min="0">
+    </div>
+    <div class="subject-input">
+        <label for="science">Science:</label>
+        <input type="number" id="science" placeholder="Marks" min="0">
+    </div>
+    <div class="subject-input">
+        <label for="english">English:</label>
+        <input type="number" id="english" placeholder="Marks" min="0">
+    </div>
+    <div class="subject-input">
+        <label for="second-language">2nd Language:</label>
+        <input type="number" id="second-language" placeholder="Marks" min="0">
+    </div>
+    <div class="subject-input">
+        <label for="math">Math:</label>
+        <input type="number" id="math" placeholder="Marks" min="0">
+    </div>
+
+    <!-- Single input field for total marks across all subjects -->
+    <div class="subject-input">
+        <label for="total">Total Marks:</label>
+        <input type="number" id="total" placeholder="Out of" min="1">
+    </div>
+
+    <button id="submit-btn" onclick="calculateGrades()">Submit Grades</button>
+    <button id="reset-btn" onclick="resetGrades()">Reset</button>
+
+    <div class="result-container">
+        <span id="result"></span><br>
+        <span id="comparison"></span>
+    </div>
+</div>
+
+<script>
+    // Load previous data from local storage if available
+    let previousAvg = localStorage.getItem('previousAvg') ? parseFloat(localStorage.getItem('previousAvg')) : null;
+    let submissionCount = localStorage.getItem('submissionCount') ? parseInt(localStorage.getItem('submissionCount')) : 0;
+
+    function calculateGrades() {
+        if (submissionCount >= 2) {
+            return; // Prevent further submissions after 2nd attempt
+        }
+
+        // Get values from input fields (marks obtained)
+        const sst = parseInt(document.getElementById('sst').value) || 0;
+        const science = parseInt(document.getElementById('science').value) || 0;
+        const english = parseInt(document.getElementById('english').value) || 0;
+        const secondLanguage = parseInt(document.getElementById('second-language').value) || 0;
+        const math = parseInt(document.getElementById('math').value) || 0;
+
+        // Get the total marks input
+        const total = parseInt(document.getElementById('total').value) || 1;
+
+        // Calculate percentage for each subject
+        const sstPercent = (sst / total) * 100;
+        const sciencePercent = (science / total) * 100;
+        const englishPercent = (english / total) * 100;
+        const secondLanguagePercent = (secondLanguage / total) * 100;
+        const mathPercent = (math / total) * 100;
+
+        // Calculate overall average percentage
+        const totalPercent = (sstPercent + sciencePercent + englishPercent + secondLanguagePercent + mathPercent) / 5;
+        const percentage = totalPercent.toFixed(2);
+
+        // Display the result
+        document.getElementById('result').textContent = `Your average percentage: ${percentage}%`;
+
+        // Show improvement/decline after the second submission
+        if (submissionCount === 1 && previousAvg !== null) {
+            let comparisonText;
+            let improvement = ((percentage - previousAvg) / previousAvg) * 100;
+
+            if (percentage > previousAvg) {
+                comparisonText = `You improved by ${improvement.toFixed(2)}%.`;
+                document.getElementById('comparison').className = 'improvement';
+            } else if (percentage < previousAvg) {
+                comparisonText = `Your performance declined by ${Math.abs(improvement).toFixed(2)}%.`;
+                document.getElementById('comparison').className = 'decline';
+            } else {
+                comparisonText = `No change in performance.`;
+                document.getElementById('comparison').className = '';
+            }
+
+            document.getElementById('comparison').textContent = comparisonText;
+        }
+
+        // Save current average for next comparison
+        previousAvg = percentage;
+        localStorage.setItem('previousAvg', percentage);  // Store the value permanently
+
+        // Increment the submission counter
+        submissionCount++;
+        localStorage.setItem('submissionCount', submissionCount);
+
+        // Remove the submit button after the second submission
+        if (submissionCount >= 2) {
+            document.getElementById('submit-btn').remove();
+        }
+    }
+
+    function resetGrades() {
+        // Clear all input fields
+        document.getElementById('sst').value = '';
+        document.getElementById('science').value = '';
+        document.getElementById('english').value = '';
+        document.getElementById('second-language').value = '';
+        document.getElementById('math').value = '';
+        document.getElementById('total').value = '';
+
+        // Clear the displayed results
+        document.getElementById('result').textContent = '';
+        document.getElementById('comparison').textContent = '';
+
+        // Reset local storage values
+        previousAvg = null;
+        submissionCount = 0;
+        localStorage.removeItem('previousAvg');
+        localStorage.setItem('submissionCount', submissionCount);
+
+        // Re-enable the submit button by creating a new one (if needed)
+        if (!document.getElementById('submit-btn')) {
+            const submitBtn = document.createElement('button');
+            submitBtn.id = 'submit-btn';
+            submitBtn.textContent = 'Submit Grades';
+            submitBtn.onclick = calculateGrades;
+            document.querySelector('.android-app').insertBefore(submitBtn, document.getElementById('reset-btn'));
+        }
+    }
+
+    // Remove the submit button if submission count is already 2
+    if (submissionCount >= 2) {
+        document.getElementById('submit-btn').remove();
+    }
+</script>
+
+</body>
+</html>

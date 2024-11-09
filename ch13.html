@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 13 - Sound Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #final-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="question-title">Loading question...</h1>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="final-score"></div>
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questions = [
+        {
+            question: "What is sound?",
+            options: ["Vibration of air particles", "A form of energy", "Light wave", "None of these"],
+            correctAnswer: "A form of energy"
+        },
+        {
+            question: "What medium does sound travel fastest in?",
+            options: ["Air", "Water", "Solid", "Vacuum"],
+            correctAnswer: "Solid"
+        },
+        {
+            question: "What is the unit of frequency?",
+            options: ["Hertz", "Decibel", "Newton", "Joule"],
+            correctAnswer: "Hertz"
+        },
+        {
+            question: "What is the audible range for humans?",
+            options: ["20 Hz to 20 kHz", "20 kHz to 20 MHz", "1 Hz to 1 kHz", "100 Hz to 10 kHz"],
+            correctAnswer: "20 Hz to 20 kHz"
+        },
+        {
+            question: "What is an echo?",
+            options: ["Sound reflection", "Sound absorption", "Sound production", "None of these"],
+            correctAnswer: "Sound reflection"
+        },
+        {
+            question: "Which of the following is a high-pitched sound?",
+            options: ["A bass drum", "A whistle", "A thunder", "A low voice"],
+            correctAnswer: "A whistle"
+        },
+        {
+            question: "What is noise pollution?",
+            options: ["Unwanted sound", "High frequency sound", "Low frequency sound", "None of these"],
+            correctAnswer: "Unwanted sound"
+        },
+        {
+            question: "What is the speed of sound in air?",
+            options: ["340 m/s", "300 m/s", "1500 m/s", "500 m/s"],
+            correctAnswer: "340 m/s"
+        },
+        {
+            question: "What is the relationship between frequency and wavelength?",
+            options: ["Directly proportional", "Inversely proportional", "No relation", "None of these"],
+            correctAnswer: "Inversely proportional"
+        },
+        {
+            question: "What instrument is used to measure sound intensity?",
+            options: ["Sonometer", "Decibel meter", "Barometer", "Thermometer"],
+            correctAnswer: "Decibel meter"
+        }
+    ];
+
+    function loadQuestion() {
+        const questionElement = document.getElementById('question-title');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+
+        feedbackElement.innerHTML = ''; // Clear previous feedback
+        const currentQuestion = questions[currentQuestionIndex];
+        questionElement.innerHTML = currentQuestion.question;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerHTML = option;
+            button.onclick = () => checkAnswer(button, option, currentQuestion.correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(button, selected, correct) {
+        const feedbackElement = document.getElementById('feedback');
+        const optionButtons = document.querySelectorAll('button');
+
+        // Disable all buttons after a selection
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (selected === correct) {
+            feedbackElement.innerHTML = 'Correct!';
+            button.classList.add('correct');
+            score++;
+        } else {
+            feedbackElement.innerHTML = 'Wrong!';
+            button.classList.add('incorrect');
+
+            // Highlight the correct answer in green
+            optionButtons.forEach(btn => {
+                if (btn.innerHTML === correct) {
+                    btn.classList.add('correct');
+                }
+            });
+        }
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000); // Wait 2 seconds before loading the next question
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showFinalScore();
+        }
+    }
+
+    function showFinalScore() {
+        document.getElementById('question-title').style.display = 'none';
+        document.getElementById('options').style.display = 'none';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('final-score').style.display = 'block';
+        document.getElementById('final-score').textContent = `Your Score: ${score}/${questions.length}`;
+    }
+
+    // Load the first question on page load
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

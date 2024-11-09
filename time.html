@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .app-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background: #2563eb;
+            color: white;
+            border-radius: 1rem 1rem 0 0;
+        }
+
+        .top-bar .time {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .time-management-options {
+            margin-top: 2rem;
+        }
+
+        .subject-select, .time-select {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        select {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid #ddd;
+            width: 48%;
+            font-size: 1rem;
+        }
+
+        .start-btn, .stop-btn, .reset-btn {
+            background-color: #0662d9;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.25rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .start-btn:hover, .stop-btn:hover, .reset-btn:hover {
+            background-color: #2659e6;
+        }
+
+        .timer-display {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            text-align: center;
+            padding: 0.5rem;
+            background-color: #f0f4f8;
+            border-radius: 0.25rem;
+            color: #2563eb;
+        }
+
+        .notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #2563eb;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            display: none;
+        }
+        /* Default theme (light theme) */
+body {
+    background-color: #fff;
+    color: #333;
+}
+/* Base styles for both light and dark themes */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.app-container {
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Light theme styles (default) */
+body {
+    background-color: #fff;
+    color: #333;
+}
+
+.app-container {
+    background-color: #f9f9f9;
+}
+
+h1, h2, h3, h4 {
+    color: #333;
+}
+
+a {
+    color: #0066cc;
+}
+
+a:hover {
+    color: #005bb5;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Dark theme styles */
+.app-container.dark {
+    background-color: #333;
+}
+
+body.dark {
+    background-color: #222;
+    color: #f5f5f5;
+}
+
+.app-container.dark h1, .app-container.dark h2, .app-container.dark h3, .app-container.dark h4 {
+    color: #f5f5f5;
+}
+
+.app-container.dark a {
+    color: #9ecfff;
+}
+
+.app-container.dark a:hover {
+    color: #70b2ff;
+}
+
+.app-container.dark button {
+    background-color: #5c6bc0;
+    color: #fff;
+}
+
+.app-container.dark button:hover {
+    background-color: #3f4b8b;
+}
+
+/* Form elements in light and dark modes */
+input, select, textarea {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.app-container.dark input, .app-container.dark select, .app-container.dark textarea {
+    background-color: #444;
+    color: #f5f5f5;
+    border: 1px solid #666;
+}
+
+.app-container.dark input:focus, .app-container.dark select:focus, .app-container.dark textarea:focus {
+    border-color: #9ecfff;
+}
+
+/* Dropdown menu styles */
+select {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.app-container.dark select {
+    background-color: #444;
+    color: #f5f5f5;
+    border: 1px solid #666;
+}
+
+/* Card-like or sectioned elements */
+.card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.app-container.dark .card {
+    background-color: #555;
+    color: #f5f5f5;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar, navigation, or other common elements */
+nav {
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+.app-container.dark nav {
+    background-color: #222;
+    border-bottom: 1px solid #444;
+}
+
+nav a {
+    color: #333;
+}
+
+nav a:hover {
+    color: #0066cc;
+}
+
+.app-container.dark nav a {
+    color: #f5f5f5;
+}
+
+.app-container.dark nav a:hover {
+    color: #9ecfff;
+}
+
+/* Spinner or loading indicator */
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+/* Animation for the spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* Light Theme Styles */
+body {
+            background-color: white;
+            color: black;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Dark Theme Styles */
+        body.dark {
+            background-color: #333;
+            color: white;
+        }
+
+        /* Optional Styling for the theme toggle button */
+        select {
+            margin: 20px;
+            padding: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Bar with Time -->
+        <div class="top-bar">
+            <span class="time" id="currentTime">12:00 PM</span>
+        </div>
+
+        <!-- Time Management Options -->
+        <div class="time-management-options">
+            <!-- Subject Selection -->
+            <div class="subject-select">
+                <select id="subjectSelect">
+                    <option value="sst">Social Studies</option>
+                    <option value="sci">Science</option>
+                    <option value="eng">English</option>
+                    <option value="secondLang">2nd Language</option>
+                    <option value="math">Math</option>
+                </select>
+            </div>
+
+            <!-- Time Selection -->
+            <div class="time-select">
+                <select id="timeSelect">
+                    <option value="10">10 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                    <option value="120">2 hours</option>
+                </select>
+            </div>
+
+            <!-- Timer Control Buttons -->
+            <button class="start-btn" id="startTimer">Start Timer</button>
+            <button class="stop-btn" id="stopTimer" style="display: none;">Stop Timer</button>
+            <button class="reset-btn" id="resetTimer" style="display: none;">Reset Timer</button>
+        </div>
+
+        <!-- Timer Display -->
+        <div id="timerDisplay" class="timer-display">00:00:00</div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Check if the Notification API is supported
+        if ("Notification" in window) {
+            Notification.requestPermission().then(permission => {
+                if (permission !== "granted") {
+                    alert("Notifications are not allowed. Please enable them in your browser settings.");
+                }
+            });
+        }
+
+        // Function to update current time
+        function updateTime() {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', hour12: true };
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString([], options);
+        }
+
+        // Update time every minute
+        setInterval(updateTime, 60000);
+        updateTime();
+
+        // Function to show notification on device
+        function showNotification(subject, time) {
+            if (Notification.permission === "granted") {
+                const notification = new Notification("RapidStudy Timer", {
+                    body: `Study Time for ${subject} - ${time} remaining`,
+                    icon: 'https://via.placeholder.com/100', // Optional icon
+                    tag: 'study-timer'
+                });
+
+                // Close notification after 5 seconds
+                setTimeout(() => notification.close(), 5000);
+            }
+        }
+
+        // Function to format time in hh:mm:ss
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Timer-related variables
+        let timerInterval;
+        let countdown;
+
+        // Function to start the timer
+        function startTimer() {
+            const subject = document.getElementById('subjectSelect').value;
+            const time = parseInt(document.getElementById('timeSelect').value);
+            
+            // Set timer notification
+            showNotification(subject, `${time} minutes`);
+
+            countdown = time * 60; // Convert minutes to seconds
+            const timerDisplay = document.getElementById('timerDisplay');
+
+            // Show stop and reset buttons, hide start button
+            document.getElementById('startTimer').style.display = 'none';
+            document.getElementById('stopTimer').style.display = 'inline-block';
+            document.getElementById('resetTimer').style.display = 'inline-block';
+
+            // Update the timer display every second
+            timerInterval = setInterval(() => {
+                countdown--;
+                timerDisplay.textContent = formatTime(countdown);
+
+                // Show notification when time is running
+                if (countdown > 0) {
+                    showNotification(subject, formatTime(countdown));
+                }
+
+                // If time is up, stop the timer and show notification
+                if (countdown <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = '00:00:00';
+                    showNotification(subject, 'Time is up!');
+                    resetTimer();
+                }
+            }, 1000);
+        }
+
+        // Function to stop the timer
+        function stopTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timerDisplay').textContent = formatTime(countdown);
+            showNotification('RapidStudy Timer', 'Timer stopped.');
+            document.getElementById('startTimer').style.display = 'inline-block';
+            document.getElementById('stopTimer').style.display = 'none';
+            document.getElementById('resetTimer').style.display = 'inline-block';
+        }
+
+        // Function to reset the timer
+        function resetTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timerDisplay').textContent = '00:00:00';
+            document.getElementById('startTimer').style.display = 'inline-block';
+            document.getElementById('stopTimer').style.display = 'none';
+            document.getElementById('resetTimer').style.display = 'none';
+        }
+
+        // Event listeners for buttons
+        document.getElementById('startTimer').addEventListener('click', startTimer);
+        document.getElementById('stopTimer').addEventListener('click', stopTimer);
+        document.getElementById('resetTimer').addEventListener('click', resetTimer);
+        window.addEventListener('DOMContentLoaded', (event) => {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    document.querySelector('.app-container').classList.add('dark');
+                    // If there's a dropdown for the theme in settings, set it to dark
+                    const themeSelect = document.querySelector('select');
+                    if (themeSelect) {
+                        themeSelect.value = 'dark';
+                    }
+                }
+            });
+
+            // Toggle theme
+            function toggleTheme(e) {
+                const isDark = e.target.value === 'dark';
+                document.querySelector('.app-container').classList.toggle('dark', isDark);
+                // Save the selected theme in localStorage
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            }
+            // Load the saved theme on page load
+window.addEventListener('DOMContentLoaded', (event) => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.querySelector('.app-container').classList.add('dark');
+        // If there's a dropdown or theme selector in settings, update its value
+        const themeSelect = document.querySelector('#theme-toggle');
+        if (themeSelect) {
+            themeSelect.value = 'dark'; // Set the dropdown to dark if it's saved as dark
+        }
+    }
+});
+
+    </script>
+</body>
+</html>
